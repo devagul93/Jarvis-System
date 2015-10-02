@@ -114,15 +114,12 @@ class Jasper(object):
             salutation = "How can I be of service?"
         self.mic.say(salutation)
 
-        conversation = Conversation("JASPER", self.mic, self.config)
+        conversation = Conversation("JARVIS", self.mic, self.config)
         conversation.handleForever()
 
 if __name__ == "__main__":
 
-    print("*******************************************************")
-    print("*             JASPER - THE TALKING COMPUTER           *")
-    print("* (c) 2015 Shubhro Saha, Charlie Marsh & Jan Holthuis *")
-    print("*******************************************************")
+    print("Hello, I am JARVIS")
 
     logging.basicConfig()
     logger = logging.getLogger()
@@ -132,7 +129,7 @@ if __name__ == "__main__":
         logger.setLevel(logging.DEBUG)
 
     if not args.no_network_check and not diagnose.check_network_connection():
-        logger.warning("Network not connected. This may prevent Jasper from " +
+        logger.warning("Network not connected. This may prevent Jarvis from " +
                        "running properly.")
 
     if args.diagnose:
