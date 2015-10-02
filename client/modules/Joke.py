@@ -47,10 +47,10 @@ def handle(text, mic, profile):
 
     def firstLine(text):
         mic.say(joke[0])
-
+	print "firstLine %s" % text
         def punchLine(text):
             mic.say(joke[1])
-
+	    print "firstLine %s" % text
         punchLine(mic.activeListen())
 
     firstLine(mic.activeListen())
