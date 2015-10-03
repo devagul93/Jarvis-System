@@ -7,11 +7,15 @@ def handle(text,mic,profile):
  
 
 # SEARCH ON WIKIPEDIA	
-# STATIC SEARCH
+#	ny = wikipedia.summary("New York",sentences=3);
+#	mic.say("%s"% ny)
 
-	ny = wikipedia.summary("New York",sentences=3);
+	mic.say("What you want to search about")
+	text = mic.activeListen()
 
-	mic.say("%s"% ny)
+	answer = wikipedia.summary(text,sentences=3)
+
+	mic.say(answer)
 
 
 def isValid(text):
