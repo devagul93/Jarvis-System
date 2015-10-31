@@ -3,6 +3,7 @@ import feedparser
 from client import app_utils
 import re
 from semantic.numbers import NumberService
+import TCPclient as tcp
 
 WORDS = ["NEWS", "YES", "NO", "FIRST", "SECOND", "THIRD"]
 
@@ -44,7 +45,7 @@ def handle(text, mic, profile):
         profile -- contains information related to the user (e.g., phone
                    number)
     """
-    mic.say("Pulling up the news")
+    tcp.send_out("Pulling up the news")
     articles = getTopArticles(maxResults=3)
     titles = [" ".join(x.title.split(" - ")[:-1]) for x in articles]
     all_titles = "... ".join(str(idx + 1) + ")" +
@@ -64,7 +65,7 @@ def handle(text, mic, profile):
         send_all = not chosen_articles and app_utils.isPositive(text)
 
         if send_all or chosen_articles:
-            mic.say("Sure, just give me a moment")
+            tcp.send_out("Sure, just give me a moment")
 
             if profile['prefers_email']:
                 body = "<ul>"
@@ -87,7 +88,7 @@ def handle(text, mic, profile):
                     else:
                         if not app_utils.emailUser(profile, SUBJECT="",
                                                    BODY=article_link):
-                            mic.say("I'm having trouble sending you these " +
+                            tcp.send_out("I'm having trouble sending you these " +
                                     "articles. Please make sure that your " +
                                     "phone number and carrier are correct " +
                                     "on the dashboard.")
@@ -99,25 +100,25 @@ def handle(text, mic, profile):
                 if not app_utils.emailUser(profile,
                                            SUBJECT="Your Top Headlines",
                                            BODY=body):
-                    mic.say("I'm having trouble sending you these articles. " +
+                    tcp.send_out("I'm having trouble sending you these articles. " +
                             "Please make sure that your phone number and " +
                             "carrier are correct on the dashboard.")
                     return
 
-            mic.say("All set")
+            tcp.send_out("All set")
 
         else:
 
-            mic.say("OK I will not send any articles")
+            tcp.send_out("OK I will not send any articles")
 
     if 'phone_number' in profile:
-        mic.say("Here are the current top headlines. " + all_titles +
+        tcp.send_out("Here are the current top headlines. " + all_titles +
                 ". Would you like me to send you these articles? " +
                 "If so, which?")
-        handleResponse(mic.activeListen())
+       #handleResponse()
 
     else:
-        mic.say(
+        tcp.send_out(
             "Here are the current top headlines. " + all_titles)
 
 

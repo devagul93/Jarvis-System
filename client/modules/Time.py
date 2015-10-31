@@ -1,6 +1,8 @@
 # -*- coding: utf-8-*-
 import datetime
 import re
+import TCPclient as tcp
+
 from client.app_utils import getTimezone
 from semantic.dates import DateService
 
@@ -22,8 +24,9 @@ def handle(text, mic, profile):
     now = datetime.datetime.now(tz=tz)
     service = DateService()
     response = service.convertTime(now)
-    mic.say("It is %s right now." % response)
-
+    #mic.say("It is %s right now." % response)
+    timeNow =  "It is "+response+" right now"
+    tcp.send_out(timeNow)
 
 def isValid(text):
     """

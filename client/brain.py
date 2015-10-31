@@ -64,6 +64,7 @@ class Brain(object):
         Arguments:
         text -- user input, typically speech, to be parsed by a module
         """
+	print "in query"
         for module in self.modules:
             for text in texts:
                 if module.isValid(text):

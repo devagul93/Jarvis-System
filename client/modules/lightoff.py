@@ -1,5 +1,6 @@
 import RPi.GPIO as gpio
 import re
+import TCPclient as client
 
 WORDS = ["TURN", "OFF","LIGHT"]
 
@@ -12,8 +13,8 @@ def handle(text,mic,profile):
 	gpio.setup(12,gpio.OUT)
 	gpio.output(12,0)
 	ny = "LIGHTS are TURNED OFF"
-	mic.say("%s"% ny)
-
+	#mic.say("%s"% ny)
+	client.send_out(ny)
 
 def isValid(text):
 

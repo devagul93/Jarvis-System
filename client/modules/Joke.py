@@ -1,6 +1,7 @@
 # -*- coding: utf-8-*-
 import random
 import re
+import TCPclient as client
 from client import jasperpath
 
 WORDS = ["JOKE", "KNOCK KNOCK"]
@@ -42,18 +43,24 @@ def handle(text, mic, profile):
                    number)
     """
     joke = getRandomJoke()
+    old = "JOKE"
 
-    mic.say("Knock knock")
+    #mic.say("Knock knock")
+    client.send_out("knock knock")
 
     def firstLine(text):
-        mic.say(joke[0])
+        #mic.say(joke[0])
+	client.send_out(joke[0])
 	print "firstLine %s" % text
         def punchLine(text):
-            mic.say(joke[1])
+            #mic.say(joke[1])
+	    client.send_out(joke[1])
 	    print "firstLine %s" % text
-        punchLine(mic.activeListen())
+	old = is_new(text)
+        punchLine(old)
 
-    firstLine(mic.activeListen())
+    old=is_new(old)
+    firstLine(old)
 
 
 def isValid(text):
@@ -64,3 +71,9 @@ def isValid(text):
         text -- user-input, typically transcribed speech
     """
     return bool(re.search(r'\bjoke\b', text, re.IGNORECASE))
+
+def is_new(old):
+    new = client.grab_input().upper()
+    while new==old:
+	new = client.grab_input().upper()
+    return new
