@@ -6,7 +6,7 @@ import urllib
 import feedparser
 import requests
 import bs4
-import TCPclient as client
+import TCPclient as tcp
 from client.app_utils import getTimezone
 from semantic.dates import DateService
 
@@ -111,7 +111,7 @@ def handle(text, mic, profile):
         forecast = get_forecast_by_name(str(profile['location']))
 
     if not forecast:
-        client.send_out("I'm sorry, I can't seem to access that information. Please " +
+        tcp.send_out("I'm sorry, I can't seem to access that information. Please " +
                 "make sure that you've set your location on the dashboard.")
         return
 
@@ -156,10 +156,9 @@ def handle(text, mic, profile):
 
     if output:
         output = replaceAcronyms(output)
-        client.send_out(output)
+        tcp.send_out(output)
     else:
-        client.send_out(
-            "I'm sorry. I can't see that far ahead.")
+        tcp.send_out("I'm sorry. I can't see that far ahead.")
 
 
 def isValid(text):

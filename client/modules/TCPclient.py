@@ -19,3 +19,9 @@ def send_out(text):
     client_socket.send(text)
     client_socket.close()
     return
+
+def is_new(old):
+    new = grab_input().upper()
+    while new==old:
+	new = grab_input().upper()
+    return new

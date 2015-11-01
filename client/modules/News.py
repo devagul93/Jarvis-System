@@ -45,7 +45,7 @@ def handle(text, mic, profile):
         profile -- contains information related to the user (e.g., phone
                    number)
     """
-    tcp.send_out("Pulling up the news")
+    tcp.send_out(tcp.is_new("Pulling up the news"))
     articles = getTopArticles(maxResults=3)
     titles = [" ".join(x.title.split(" - ")[:-1]) for x in articles]
     all_titles = "... ".join(str(idx + 1) + ")" +
@@ -118,8 +118,7 @@ def handle(text, mic, profile):
        #handleResponse()
 
     else:
-        tcp.send_out(
-            "Here are the current top headlines. " + all_titles)
+       	tcp.send_out("Here are the current top headlines. " + all_titles)
 
 
 def isValid(text):

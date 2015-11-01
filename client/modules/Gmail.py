@@ -2,7 +2,9 @@
 import imaplib
 import email
 import re
+import TCPclient as tcp
 from dateutil import parser
+
 
 WORDS = ["EMAIL", "INBOX"]
 
@@ -96,28 +98,33 @@ def handle(text, mic, profile):
         profile -- contains information related to the user (e.g., Gmail
                    address)
     """
+    print "in handle"
     try:
         msgs = fetchUnreadEmails(profile, limit=5)
 
         if isinstance(msgs, int):
+	    print "UNREAD MESSAGES UNREAD MESSAGES UNREAD MESSAGES UNREAD MESSAGES UNREAD MESSAGES UNREAD MESSAGES UNREAD MESSAGES"
             response = "You have %d unread emails." % msgs
-            mic.say(response)
+            tcp.send_out(response)
             return
 
         senders = [getSender(e) for e in msgs]
     except imaplib.IMAP4.error:
-        mic.say(
+        tcp.send_out(
             "I'm sorry. I'm not authenticated to work with your Gmail.")
         return
 
     if not senders:
-        mic.say("You have no unread emails.")
+	
+	print "READ MESSAGES READ MESSAGES READ MESSAGES READ MESSAGES READ MESSAGES READ MESSAGES READ MESSAGES!!!!!!!!!!!!"
+        tcp.send_out("You have no unread emails.")
     elif len(senders) == 1:
-        mic.say("You have one unread email from " + senders[0] + ".")
+        tcp.send_out("You have one unread email from " + senders[0] + ".")
     else:
         response = "You have %d unread emails" % len(
             senders)
         unique_senders = list(set(senders))
+	print "!!!!!!!!!!!!READ MESSAGES READ MESSAGES READ MESSAGES READ MESSAGES READ MESSAGES READ MESSAGES READ MESSAGES!!!!!!!!!!!!"
         if len(unique_senders) > 1:
             unique_senders[-1] = 'and ' + unique_senders[-1]
             response += ". Senders include: "
@@ -125,7 +132,7 @@ def handle(text, mic, profile):
         else:
             response += " from " + unique_senders[0]
 
-        mic.say(response)
+        tcp.send_out(response)
 
 
 def isValid(text):
